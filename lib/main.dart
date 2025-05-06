@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/home.dart';
+import 'package:share_the_meal_app/recycle.dart';
 import 'package:share_the_meal_app/register.dart';
 import 'package:share_the_meal_app/signin.dart';
+import 'package:share_the_meal_app/upload.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,11 +18,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: SigninScreen(),
+      home: Home(),
       routes: {
         '/home': (context) => Home(),
         '/sign-in': (context) => SigninScreen(),
         '/register': (context) => RegisterScreen(),
+        '/recycle': (context) => RecycleFormScreen(),
+        '/upload': (context) => UploadFormScreen(),
       },
     );
   }

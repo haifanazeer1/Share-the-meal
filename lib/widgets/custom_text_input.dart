@@ -4,6 +4,7 @@ class CustomTextInput extends StatelessWidget {
   const CustomTextInput({
     super.key,
     required TextEditingController controller,
+    this.onTap,
     required this.icon,
     required this.isObscure,
     this.keyboard,
@@ -15,6 +16,7 @@ class CustomTextInput extends StatelessWidget {
   final bool isObscure;
   final TextInputType? keyboard;
   final String hint;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class CustomTextInput extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               )),
+          onTap: onTap,
         ),
       ),
     );

@@ -28,12 +28,12 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 16),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.pop(context, '/sign-in');
-            },
-            child: Icon(Icons.arrow_back),
-          ),
+          //FloatingActionButton(
+          // onPressed: () {
+          // Navigator.pop(context, '/sign-in');
+          //},
+          // child: Icon(Icons.arrow_back),
+          //),
         ],
       ),
       drawer: SideNav(),
