@@ -6,7 +6,7 @@ class BottomNav extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  BottomNav({required this.currentIndex, required this.onTap});
+  const BottomNav({super.key, required this.currentIndex, required this.onTap});
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -33,7 +33,7 @@ class _BottomNavState extends State<BottomNav> {
     return BottomNavigationBar(
       onTap: _onItemTapped,
       currentIndex: selectedIndex,
-      items: [
+      items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'Upload'),
         BottomNavigationBarItem(

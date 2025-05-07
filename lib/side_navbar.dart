@@ -1,26 +1,66 @@
 import 'package:flutter/material.dart';
 
 class SideNav extends StatelessWidget {
+  const SideNav({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
-          DrawerHeader(
+          // Header with profile
+          UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.green),
-            child: Text(
-              'Navigation',
-              style: TextStyle(color: Colors.white, fontSize: 24),
+            accountName: Text(
+              'Ahamadi Hareem',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+         accountEmail: Text('example@gmail.com'),
+         currentAccountPicture: CircleAvatar(
+
+            child: Image.network('C:\Users\ahmad\elon.jpg',
+  width: 90,
+  height:90,
+            ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {},
-          ),
+
+          // Main navigation items
+          _buildListTile(Icons.home, 'Home', context),
+          _buildListTile(Icons.person, 'Profile', context),
+          _buildListTile(Icons.notifications, 'Notifications', context),
+          _buildListTile(Icons.dashboard, 'Dashboard', context),
+          _buildListTile(Icons.favorite, 'Favourites', context),
+          _buildListTile(Icons.fastfood, 'Food', context),
+          _buildListTile(Icons.shopping_cart, 'Checkout', context),
+          _buildListTile(Icons.history, 'Orders', context),
+
+          Spacer(),
+
+          // Bottom Settings
+          Divider(),
+          _buildListTile(Icons.logout, 'Logout', context),
+          _buildListTile(Icons.settings, 'Settings', context),
+          SizedBox(height: 12),
         ],
       ),
+    );
+  }
+
+  Widget _buildListTile(IconData icon, String title, BuildContext context) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.green.shade800),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 16, color: Colors.black87),
+      ),
+      hoverColor: Colors.green.withOpacity(0.1),
+      onTap: () {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('$title tapped')),
+        );
+      },
     );
   }
 }

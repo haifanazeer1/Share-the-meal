@@ -43,7 +43,7 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 6, 66, 116),
-          title: Center(child: Text("Upload Form")),
+          title: const Center(child: Text("Upload Form")),
         ),
         body: SingleChildScrollView(
             child: Column(
@@ -65,44 +65,44 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
             ),*/
             CustomTextInput(
               controller: _name,
-              icon: Icon(Icons.person),
+              icon: const Icon(Icons.person),
               hint: 'Enter your  full name',
               isObscure: false,
             ),
             CustomTextInput(
               controller: _phone,
-              icon: Icon(Icons.phone),
+              icon: const Icon(Icons.phone),
               hint: 'Enter your phone number',
               isObscure: false,
             ),
             CustomTextInput(
               controller: _type,
-              icon: Icon(Icons.type_specimen),
+              icon: const Icon(Icons.type_specimen),
               hint: 'Enter the type of food(veg/nonveg)',
               isObscure: false,
             ),
             CustomTextInput(
               controller: _servesize,
-              icon: Icon(Icons.production_quantity_limits),
+              icon: const Icon(Icons.production_quantity_limits),
               hint: 'Enter the serving size',
               isObscure: false,
             ),
             CustomTextInput(
               controller: _date,
               onTap: () => _selectDate(context),
-              icon: Icon(Icons.calendar_month),
+              icon: const Icon(Icons.calendar_month),
               hint: 'pick a date for pickup',
               isObscure: false,
             ),
             CustomTextInput(
               controller: _location,
-              icon: Icon(Icons.location_city),
+              icon: const Icon(Icons.location_city),
               hint: 'Enter your location',
               isObscure: false,
             ),
             CustomTextInput(
               controller: _notes,
-              icon: Icon(Icons.description),
+              icon: const Icon(Icons.description),
               hint: 'Describe the condition of the food',
               isObscure: false,
             ),
@@ -115,9 +115,9 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
               ),
-              child: Text("Submit",
+              child: const Text("Submit",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ],

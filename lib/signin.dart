@@ -24,7 +24,7 @@ class SigninScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Center(
+          const Center(
             child: Text(
               "Welcome to Share The Meal!",
               style: TextStyle(
@@ -57,8 +57,8 @@ class SigninScreen extends StatelessWidget {
                       width: 24,
                       height: 15,
                     ),
-                    SizedBox(width: 8),
-                    Text('Sign in with Google'),
+                    const SizedBox(width: 8),
+                    const Text('Sign in with Google'),
                   ],
                 ),
               ),
@@ -66,13 +66,13 @@ class SigninScreen extends StatelessWidget {
           ),
           CustomTextInput(
               controller: _email,
-              icon: Icon(Icons.email),
+              icon: const Icon(Icons.email),
               hint: 'Enter your email',
               isObscure: false,
               keyboard: TextInputType.emailAddress),
           CustomTextInput(
               controller: _password,
-              icon: Icon(Icons.password),
+              icon: const Icon(Icons.password),
               hint: 'Enter your password',
               isObscure: true,
               keyboard: TextInputType.text),
@@ -88,9 +88,9 @@ class SigninScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.pushNamed(context, '/home');
                       },
-                      child: Text('Sign in')))),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+                      child: const Text('Sign in')))),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text(
               'Dont have an account?',
             ),
@@ -105,7 +105,7 @@ class SigninScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: Text('Register here')))
+                  child: const Text('Register here')))
         ],
       ),
     );

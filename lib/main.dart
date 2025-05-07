@@ -5,6 +5,7 @@ import 'package:share_the_meal_app/register.dart';
 import 'package:share_the_meal_app/signin.dart';
 import 'package:share_the_meal_app/upload.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,13 +19,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo -1',
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: const Home(),
       routes: {
-        '/home': (context) => Home(),
+        '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
-        '/register': (context) => RegisterScreen(),
+        '/register': (context) => const RegisterScreen(),
         '/recycle': (context) => RecycleFormScreen(),
-        '/upload': (context) => UploadFormScreen(),
+        '/upload': (context) => const UploadFormScreen(),
       },
     );
   }
