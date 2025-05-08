@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'side_navbar.dart';
+import 'sidebar/side_navbar.dart';
 import 'bottom_navbar.dart';
 
 class Home extends StatefulWidget {

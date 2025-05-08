@@ -31,9 +31,9 @@ class SideNav extends StatelessWidget {
           _buildListTile(Icons.notifications, 'Notifications', context),
           _buildListTile(Icons.dashboard, 'Dashboard', context),
           _buildListTile(Icons.favorite, 'Favourites', context),
-          _buildListTile(Icons.fastfood, 'Food', context),
-          _buildListTile(Icons.shopping_cart, 'Checkout', context),
-          _buildListTile(Icons.history, 'Orders', context),
+          _buildListTile(Icons.attach_money, 'Donate', context),
+          _buildListTile(Icons.history, 'History', context),
+         _buildListTile(Icons.info, 'About Us', context),
 
           Spacer(),
 
@@ -45,9 +45,9 @@ class SideNav extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildListTile(IconData icon, String title, BuildContext context) {
+  }}
+  
+   Widget _buildListTile(IconData icon, String title, BuildContext context) {
     return ListTile(
       leading: Icon(icon, color: Colors.green.shade800),
       title: Text(
@@ -63,4 +63,4 @@ class SideNav extends StatelessWidget {
       },
     );
   }
-}
+
