@@ -6,43 +6,40 @@ class SideNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: [
-          // Header with profile
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: Colors.green),
-            accountName: Text(
-              'Ahamadi Hareem',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Header with profile
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: Colors.green),
+              accountName: Text(
+                'Ahamadi Hareem',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              accountEmail: Text('example@gmail.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('assets/elon.jpg'), // Fixed path
+              ),
             ),
-         accountEmail: Text('example@gmail.com'),
-         currentAccountPicture: CircleAvatar(
 
-            child: Image.network('C:\Users\ahmad\elon.jpg',
-  width: 90,
-  height:90,
-            ),
-            ),
-          ),
+            // Main navigation items
+            _buildListTile(Icons.home, 'Home', context),
+            _buildListTile(Icons.person, 'Profile', context),
+            _buildListTile(Icons.notifications, 'Notifications', context),
+            _buildListTile(Icons.dashboard, 'Dashboard', context),
+            _buildListTile(Icons.favorite, 'Favourites', context),
+            _buildListTile(Icons.fastfood, 'Food', context),
+            _buildListTile(Icons.shopping_cart, 'Checkout', context),
+            _buildListTile(Icons.history, 'Orders', context),
 
-          // Main navigation items
-          _buildListTile(Icons.home, 'Home', context),
-          _buildListTile(Icons.person, 'Profile', context),
-          _buildListTile(Icons.notifications, 'Notifications', context),
-          _buildListTile(Icons.dashboard, 'Dashboard', context),
-          _buildListTile(Icons.favorite, 'Favourites', context),
-          _buildListTile(Icons.fastfood, 'Food', context),
-          _buildListTile(Icons.shopping_cart, 'Checkout', context),
-          _buildListTile(Icons.history, 'Orders', context),
+            SizedBox(height: 20), // Instead of Spacer()
 
-          Spacer(),
-
-          // Bottom Settings
-          Divider(),
-          _buildListTile(Icons.logout, 'Logout', context),
-          _buildListTile(Icons.settings, 'Settings', context),
-          SizedBox(height: 12),
-        ],
+            Divider(),
+            _buildListTile(Icons.logout, 'Logout', context),
+            _buildListTile(Icons.settings, 'Settings', context),
+            SizedBox(height: 12),
+          ],
+        ),
       ),
     );
   }
