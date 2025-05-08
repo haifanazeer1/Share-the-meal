@@ -3,6 +3,8 @@ import 'side_navbar.dart';
 import 'bottom_navbar.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -14,17 +16,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('HOME PAGE')),
+        title: const Center(child: Text('HOME PAGE')),
         leading: Builder(
           builder: (context) => IconButton(
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           ),
         ),
       ),
-      body: Column(
+      body: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 16),

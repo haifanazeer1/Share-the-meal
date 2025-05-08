@@ -6,19 +6,19 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _name = TextEditingController();
-    final TextEditingController _email = TextEditingController();
-    final TextEditingController _password = TextEditingController();
-    final TextEditingController _branch = TextEditingController();
-    final TextEditingController _rollno = TextEditingController();
+    final TextEditingController name = TextEditingController();
+    final TextEditingController email = TextEditingController();
+    final TextEditingController password = TextEditingController();
+    final TextEditingController branch = TextEditingController();
+    final TextEditingController rollno = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context, '/sign-in');
             },
-            icon: Icon(Icons.arrow_back)),
-        title: Text('SHARE THE MEAL',
+            icon: const Icon(Icons.arrow_back)),
+        title: const Text('SHARE THE MEAL',
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w400,
@@ -28,8 +28,8 @@ class RegisterScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(25.0),
+          const Padding(
+            padding: EdgeInsets.all(25.0),
             child: Center(
               child: Text(
                 "Create An Account",
@@ -41,7 +41,7 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
           ),
-          Center(
+          const Center(
             child: Text(
               "Helping People In Need",
               style: TextStyle(
@@ -53,26 +53,26 @@ class RegisterScreen extends StatelessWidget {
             ),
           ),
           CustomTextInput(
-            controller: _name,
-            icon: Icon(Icons.person),
+            controller: name,
+            icon: const Icon(Icons.person),
             hint: 'Enter your  full name',
             isObscure: false,
           ),
           CustomTextInput(
-            controller: _email,
-            icon: Icon(Icons.email),
+            controller: email,
+            icon: const Icon(Icons.email),
             hint: 'Enter your email',
             isObscure: false,
           ),
           CustomTextInput(
-            controller: _password,
-            icon: Icon(Icons.password),
+            controller: password,
+            icon: const Icon(Icons.password),
             hint: 'Enter your password',
             isObscure: true,
           ),
           CustomTextInput(
-            controller: _password,
-            icon: Icon(Icons.password),
+            controller: password,
+            icon: const Icon(Icons.password),
             hint: 'Confirm your password',
             isObscure: true,
           ),
@@ -88,7 +88,7 @@ class RegisterScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/home');
                     },
-                    child: Text('Sign Up'))),
+                    child: const Text('Sign Up'))),
           ),
         ],
       ),
