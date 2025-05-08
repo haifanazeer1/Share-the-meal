@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: ProfilePage(),
+      home: Home(),
       routes: {
         '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
