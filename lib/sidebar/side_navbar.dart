@@ -18,8 +18,8 @@ class SideNav extends StatelessWidget {
               ),
               accountEmail: Text('example@gmail.com'),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/elon.jpg'), // Fixed path
-              ),
+                  //backgroundImage: AssetImage('assets/elon.jpg'), // Fixed path
+                  ),
             ),
 
             // Main navigation items
@@ -34,6 +34,16 @@ class SideNav extends StatelessWidget {
 
             SizedBox(height: 20), // Instead of Spacer()
 
+            // Main navigation items
+            _buildListTile(Icons.home, 'Home', context),
+            _buildListTile(Icons.person, 'Profile', context),
+            _buildListTile(Icons.notifications, 'Notifications', context),
+            _buildListTile(Icons.dashboard, 'Dashboard', context),
+            _buildListTile(Icons.favorite, 'Favourites', context),
+            _buildListTile(Icons.attach_money, 'Donate', context),
+            _buildListTile(Icons.history, 'History', context),
+            _buildListTile(Icons.info, 'About Us', context),
+
             Divider(),
             _buildListTile(Icons.logout, 'Logout', context),
             _buildListTile(Icons.settings, 'Settings', context),
@@ -43,21 +53,21 @@ class SideNav extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildListTile(IconData icon, String title, BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.green.shade800),
-      title: Text(
-        title,
-        style: TextStyle(fontSize: 16, color: Colors.black87),
-      ),
-      hoverColor: Colors.green.withOpacity(0.1),
-      onTap: () {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$title tapped')),
-        );
-      },
-    );
-  }
+Widget _buildListTile(IconData icon, String title, BuildContext context) {
+  return ListTile(
+    leading: Icon(icon, color: Colors.green.shade800),
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 16, color: Colors.black87),
+    ),
+    hoverColor: Colors.green.withOpacity(0.1),
+    onTap: () {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$title tapped')),
+      );
+    },
+  );
 }

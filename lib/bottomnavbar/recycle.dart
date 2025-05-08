@@ -108,7 +108,8 @@ class _RecycleFormScreenState extends State<RecycleFormScreen> {
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
               ),
               child: const Text("Submit",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

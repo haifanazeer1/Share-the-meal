@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/home.dart';
-import 'package:share_the_meal_app/recycle.dart';
+import 'package:share_the_meal_app/bottomnavbar/recycle.dart';
 
 class BottomNav extends StatefulWidget {
   final int currentIndex;

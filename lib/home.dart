@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'side_navbar.dart';
-import 'bottom_navbar.dart';
+import 'sidebar/side_navbar.dart';
+import 'bottomnavbar/bottom_navbar.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
