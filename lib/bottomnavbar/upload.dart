@@ -42,7 +42,7 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 6, 66, 116),
+          backgroundColor: Colors.green,
           title: const Center(child: Text("Upload Form")),
         ),
         body: SingleChildScrollView(
@@ -115,7 +115,8 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
               ),
               child: const Text("Submit",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
