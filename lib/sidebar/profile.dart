@@ -178,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
 
-          // Full-Width Beige Box with Clickable About Us
+          /// Full-Width Beige Box with Clickable About Us
           Container(
             width: double.infinity,
             color: Color(0xFFF5F5DC), // Beige color
@@ -189,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(fontSize: 16, color: Colors.black),
                 children: [
                   TextSpan(
-                      text: 'Contact Us: 123-456-7890, 987-654-3210  |  '),
+                      text: 'Contact Us: 123-456-7854, 987-654-3210  |  '),
                   TextSpan(
                     text: 'About Us',
                     style: TextStyle(

@@ -22,15 +22,6 @@ class SideNav extends StatelessWidget {
                   ),
             ),
 
-            // Main navigation items
-            _buildListTile(Icons.home, 'Home', context),
-            _buildListTile(Icons.person, 'Profile', context),
-            _buildListTile(Icons.notifications, 'Notifications', context),
-            _buildListTile(Icons.dashboard, 'Dashboard', context),
-            _buildListTile(Icons.favorite, 'Favourites', context),
-            _buildListTile(Icons.fastfood, 'Food', context),
-            _buildListTile(Icons.shopping_cart, 'Checkout', context),
-            _buildListTile(Icons.history, 'Orders', context),
 
             SizedBox(height: 20), // Instead of Spacer()
 
