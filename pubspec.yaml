@@ -41,6 +41,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  fl_chart: ^0.64.0  # or latest version from pub.dev
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
