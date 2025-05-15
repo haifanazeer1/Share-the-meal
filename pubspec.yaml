@@ -58,6 +58,7 @@ flutter:
   assets:
     - assets/google.png
     - assets/image1.jpeg
+    # The asset file 'assets/visa.jpg' was removed or does not exist.
 
 
   # The following line ensures that the Material Icons font is
@@ -65,6 +66,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  #assets:
+ 
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
