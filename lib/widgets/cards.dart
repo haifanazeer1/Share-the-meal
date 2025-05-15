@@ -7,6 +7,7 @@ class OrgCard extends StatelessWidget {
   final String cuisine;
   final String location;
   final String distance;
+  final VoidCallback? onTap; // Callback function when the card is tapped
 
   const OrgCard({
     Key? key,
@@ -16,11 +17,15 @@ class OrgCard extends StatelessWidget {
     required this.cuisine,
     required this.location,
     required this.distance,
+    this.onTap, // Optional onTap function
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Card(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 3,
@@ -58,16 +63,13 @@ class OrgCard extends StatelessWidget {
                       time,
                       style: TextStyle(color: Colors.black),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(width: 8),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

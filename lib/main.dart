@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_the_meal_app/cardprofile.dart';
 import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/bottomnavbar/recycle.dart';
 import 'package:share_the_meal_app/register.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/recycle': (context) => RecycleFormScreen(),
         '/upload': (context) => const UploadFormScreen(),
+        '/cardprofile': (context) => Cardprofile()
       },
     );
   }
