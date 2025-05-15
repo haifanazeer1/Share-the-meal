@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:share_the_meal_app/home.dart';
+import 'package:share_the_meal_app/sidebar/favorites.dart';
+import 'package:share_the_meal_app/sidebar/settings.dart';
+import 'package:share_the_meal_app/signin.dart';
+import 'history.dart';
+import 'donation.dart';
+import 'aboutus.dart';
+import 'dash.dart';
+import 'notification.dart';
+import 'profile.dart';
 
 class SideNav extends StatelessWidget {
   const SideNav({super.key});
@@ -22,22 +32,23 @@ class SideNav extends StatelessWidget {
                   ),
             ),
 
-
             SizedBox(height: 20), // Instead of Spacer()
 
             // Main navigation items
-            _buildListTile(Icons.home, 'Home', context),
-            _buildListTile(Icons.person, 'Profile', context),
-            _buildListTile(Icons.notifications, 'Notifications', context),
-            _buildListTile(Icons.dashboard, 'Dashboard', context),
-            _buildListTile(Icons.favorite, 'Favourites', context),
-            _buildListTile(Icons.attach_money, 'Donate', context),
-            _buildListTile(Icons.history, 'History', context),
-            _buildListTile(Icons.info, 'About Us', context),
+            _buildListTile(Icons.home, 'Home', context, const Home()),
+            _buildListTile(Icons.person, 'Profile', context, ProfilePage()),
+            _buildListTile(Icons.notifications, 'Notifications', context,
+                NotificationPage()),
+            _buildListTile(
+                Icons.dashboard, 'Dashboard', context, DashBoardPage()),
+            // _buildListTile(
+            //  Icons.favorite, 'Favourites', context, FavoritesPage()),
+            _buildListTile(Icons.attach_money, 'Donate', context, DonatePage()),
+            _buildListTile(Icons.info, 'About Us', context, AboutUsPage()),
 
             Divider(),
-            _buildListTile(Icons.logout, 'Logout', context),
-            _buildListTile(Icons.settings, 'Settings', context),
+            _buildListTile(Icons.logout, 'Logout', context, SigninScreen()),
+            _buildListTile(Icons.settings, 'Settings', context, SettingsPage()),
             SizedBox(height: 12),
           ],
         ),
@@ -46,7 +57,8 @@ class SideNav extends StatelessWidget {
   }
 }
 
-Widget _buildListTile(IconData icon, String title, BuildContext context) {
+Widget _buildListTile(
+    IconData icon, String title, BuildContext context, Widget destination) {
   return ListTile(
     leading: Icon(icon, color: Colors.green.shade800),
     title: Text(
@@ -55,9 +67,10 @@ Widget _buildListTile(IconData icon, String title, BuildContext context) {
     ),
     hoverColor: Colors.green.withOpacity(0.1),
     onTap: () {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$title tapped')),
+      Navigator.pop(context); // Close the drawer
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => destination),
       );
     },
   );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'side_navbar.dart'; 
+import 'side_navbar.dart';
 
 class NotificationPage extends StatelessWidget {
   final List<NotificationItem> notifications = [
@@ -27,7 +27,6 @@ class NotificationPage extends StatelessWidget {
         title: Text("Notifications"),
         backgroundColor: Colors.green[700],
       ),
-      drawer: SideNav(), 
       body: ListView.builder(
         itemCount: notifications.length,
         itemBuilder: (context, index) {

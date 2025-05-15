@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: const Center(child: Text('HOME PAGE')),
         leading: Builder(
           builder: (context) => IconButton(
