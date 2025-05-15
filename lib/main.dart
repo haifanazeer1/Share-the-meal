@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/cardprofile.dart';
+import 'package:share_the_meal_app/bottomnavbar/upload.dart';
+
 import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/bottomnavbar/recycle.dart';
 import 'package:share_the_meal_app/register.dart';
-import 'package:share_the_meal_app/sidebar/dash.dart';
-import 'package:share_the_meal_app/sidebar/notification.dart';
-import 'package:share_the_meal_app/sidebar/profile.dart';
-import 'package:share_the_meal_app/sidebar/side_navbar.dart';
+import 'package:share_the_meal_app/sidebar/aboutus.dart';
+import 'package:share_the_meal_app/sidebar/donation.dart';
 import 'package:share_the_meal_app/signin.dart';
-import 'package:share_the_meal_app/bottomnavbar/upload.dart';
 
 void main() {
   runApp(const MyApp());

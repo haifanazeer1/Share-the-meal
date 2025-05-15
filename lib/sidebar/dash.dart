@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'side_navbar.dart';
+
 
 // Main Dashboard Page
 class DashboardPage extends StatelessWidget {
@@ -21,6 +22,7 @@ class DashboardPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
+            // Welcome & Intro
             Text(
               "Welcome back, Ahamadi 👋",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -30,21 +32,31 @@ class DashboardPage extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.grey[700]),
             ),
             SizedBox(height: 20),
+
+            // Pie Chart: Contribution % in State
             Text(
-              "Impact in Telangana",
+              "Impact in Lagos State",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(
-                height: 200, child: _buildPieChart(contributionPercentage)),
+            SizedBox(height: 180, child: _buildPieChart(contributionPercentage)),
+
             SizedBox(height: 20),
+
+            // Achievement Stars
             _buildAchievementSection(totalDonations),
+
             SizedBox(height: 20),
+
+            // Bar Chart: Total People Helped
             Text(
               "Total People Helped by Region",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             SizedBox(height: 250, child: _buildImpactBarChart()),
+
             SizedBox(height: 20),
+
+            // Call to Action
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -71,7 +83,7 @@ class DashboardPage extends StatelessWidget {
                       backgroundColor: Colors.green[700],
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/upload');
+                      // TODO: Navigate to donation form
                     },
                   ),
                 ],
@@ -83,29 +95,32 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  // Pie Chart with fl_chart
+  // Pie Chart Widget
   Widget _buildPieChart(int contributionPercentage) {
-    return PieChart(
-      PieChartData(
-        sectionsSpace: 2,
-        centerSpaceRadius: 40,
-        sections: [
-          PieChartSectionData(
-            color: Colors.green,
-            value: contributionPercentage.toDouble(),
-            title: '$contributionPercentage%',
-            radius: 60,
-            titleStyle: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          PieChartSectionData(
-            color: Colors.grey[300],
-            value: (100 - contributionPercentage).toDouble(),
-            title: '${100 - contributionPercentage}%',
-            radius: 60,
-            titleStyle: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
+    final data = [
+      PieSegment('Helped', contributionPercentage, Colors.green),
+      PieSegment('Remaining', 100 - contributionPercentage, Colors.grey[300]!),
+    ];
+
+    final series = [
+      charts.Series<PieSegment, String>(
+        id: 'Contributions',
+        domainFn: (PieSegment seg, _) => seg.label,
+        measureFn: (PieSegment seg, _) => seg.value,
+        colorFn: (PieSegment seg, _) =>
+            charts.ColorUtil.fromDartColor(seg.color),
+        data: data,
+        labelAccessorFn: (PieSegment seg, _) => '${seg.label}: ${seg.value}%',
+      )
+    ];
+
+    return charts.PieChart<String>(
+      series,
+      animate: true,
+      defaultRenderer: charts.ArcRendererConfig(
+        arcWidth: 60,
+        arcRendererDecorators: [
+          charts.ArcLabelDecorator(),
         ],
       ),
     );
@@ -156,59 +171,46 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  // Bar Chart using fl_chart
+  // Bar Chart for Overall Impact
   Widget _buildImpactBarChart() {
     final data = [
-      ImpactData("Hyderabad", 1200, Colors.green),
-      ImpactData("Karimnagar", 850, Colors.blue),
-      ImpactData("Siddipet", 650, Colors.orange),
-      ImpactData("Warangal", 400, Colors.purple),
-      ImpactData("Vikarabad", 300, Colors.teal),
+      ImpactData("Lagos", 1200, Colors.green),
+      ImpactData("Abuja", 850, Colors.blue),
+      ImpactData("Kano", 650, Colors.orange),
+      ImpactData("Enugu", 400, Colors.purple),
+      ImpactData("Kaduna", 300, Colors.teal),
     ];
 
-    return BarChart(
-      BarChartData(
-        alignment: BarChartAlignment.spaceAround,
-        maxY: 1400,
-        titlesData: FlTitlesData(
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: true, interval: 200),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, _) {
-                final index = value.toInt();
-                if (index >= 0 && index < data.length) {
-                  return Text(data[index].region);
-                }
-                return SizedBox.shrink();
-              },
-              reservedSize: 40,
-            ),
-          ),
-        ),
-        barGroups: List.generate(data.length, (index) {
-          final entry = data[index];
-          return BarChartGroupData(
-            x: index,
-            barRods: [
-              BarChartRodData(
-                toY: entry.peopleHelped.toDouble(),
-                color: entry.color,
-                width: 20,
-              ),
-            ],
-          );
-        }),
-        borderData: FlBorderData(show: false),
-        gridData: FlGridData(show: true),
-      ),
+    final series = [
+      charts.Series<ImpactData, String>(
+        id: "Impact",
+        data: data,
+        domainFn: (ImpactData region, _) => region.region,
+        measureFn: (ImpactData region, _) => region.peopleHelped,
+        colorFn: (ImpactData region, _) =>
+            charts.ColorUtil.fromDartColor(region.color),
+      )
+    ];
+
+    return charts.BarChart(
+      series,
+      animate: true,
+      vertical: true,
+      barGroupingType: charts.BarGroupingType.grouped,
     );
   }
 }
 
-// Data Model for Bar Chart
+// Pie Segment Data Model
+class PieSegment {
+  final String label;
+  final int value;
+  final Color color;
+
+  PieSegment(this.label, this.value, this.color);
+}
+
+// Impact Data Model for Bar Chart
 class ImpactData {
   final String region;
   final int peopleHelped;

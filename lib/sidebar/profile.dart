@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+// ignore: unused_import
+import 'side_navbar.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,

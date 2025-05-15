@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'sidebar/side_navbar.dart';
 import 'bottomnavbar/bottom_navbar.dart';
-import 'widgets/cards.dart';
 import 'widgets/filtersortbar.dart';
+import 'widgets/cards.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,32 +13,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int myIndex = 0;
-  bool _isSearching = false;
-  TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Container(
-          height: 40,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: TextField(
-            controller: _searchController,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.search, color: Colors.grey),
-              hintText: 'Search...',
-              border: InputBorder.none,
-            ),
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
+        title: const Center(child: Text('HOME PAGE')),
         leading: Builder(
           builder: (context) => IconButton(
             onPressed: () {
@@ -47,47 +27,32 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.menu),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          )
-        ],
       ),
+
+      drawer: const SideNav(), // ✅ Side Navigation Drawer
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 16),
               const FilterSortBar(),
-              const SizedBox(
-                height: 20,
-              )
-              /* Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Curent Location',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                  ),
-                ),
-              ),*/
-              ,
+              const SizedBox(height: 20),
+
+              // Sample Org Cards
               OrgCard(
-                  imageUrl: 'assets/image1.jpeg',
-                  name: 'Waheed Ul Uloom',
-                  time: '5-10 mins',
-                  cuisine: 'veg and non-veg',
-                  location: 'RedHills',
-                  distance: '0.5km',
-                  onTap: () {
-                    Navigator.pushNamed(context, '/cardprofile');
-                  }),
+                imageUrl: 'assets/image1.jpeg',
+                name: 'Waheed Ul Uloom',
+                time: '5-10 mins',
+                cuisine: 'veg and non-veg',
+                location: 'RedHills',
+                distance: '0.5km',
+                onTap: () {
+                  Navigator.pushNamed(context, '/cardprofile');
+                },
+              ),
               OrgCard(
                 imageUrl: 'assets/image1.jpeg',
                 name: 'Niswan Education Center',
@@ -131,12 +96,12 @@ class _HomeState extends State<Home> {
                 onTap: () {
                   Navigator.pushNamed(context, '/cardprofile');
                 },
-              )
+              ),
             ],
           ),
         ),
       ),
-      drawer: SideNav(),
+
       bottomNavigationBar: BottomNav(
         currentIndex: myIndex,
         onTap: (index) {
