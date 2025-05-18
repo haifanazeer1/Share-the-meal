@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/widgets/custom_text_input.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadFormScreen extends StatefulWidget {
   const UploadFormScreen({super.key});
@@ -30,6 +34,16 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
+  Future<void> _pickImage() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _imageFile = File(pickedImage.path);
+      });
+    }
+  }
+
   final TextEditingController _name = TextEditingController();
   final TextEditingController _type = TextEditingController();
   final TextEditingController _servesize = TextEditingController();
@@ -37,6 +51,8 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
   final TextEditingController _date = TextEditingController();
   final TextEditingController _location = TextEditingController();
   final TextEditingController _notes = TextEditingController();
+  File? _imageFile;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +64,33 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
         body: SingleChildScrollView(
             child: Column(
           children: [
+            GestureDetector(
+              onTap: _pickImage,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[100],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 10, 61, 104),
+                      width: 2,
+                    ),
+                    image: _imageFile != null
+                        ? DecorationImage(
+                            image: FileImage(_imageFile!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: _imageFile == null
+                      ? const Center(child: Text("Tap to upload an image"))
+                      : null,
+                ),
+              ),
+            ),
             /*GestureDetector(
               onTap: () {},
               child: Padding(
@@ -107,8 +150,45 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
               isObscure: false,
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, '/home');
+              onPressed: () async {
+                try {
+                  String? imageUrl;
+                  if (_imageFile != null) {
+                    final storageRef = FirebaseStorage.instance.ref().child(
+                        'uploads/${DateTime.now().millisecondsSinceEpoch}.jpg');
+                    final UploadTask = await storageRef.putFile(_imageFile!);
+                    print("upload complete");
+                    imageUrl = await storageRef.getDownloadURL();
+                    print("image URL: $imageUrl");
+                  }
+                  await FirebaseFirestore.instance.collection('meals').add({
+                    'name': _name.text,
+                    'phone': _phone.text,
+                    'type': _type.text,
+                    'serving_size': _servesize.text,
+                    'pickup_date': _date.text,
+                    'location': _location.text,
+                    'notes': _notes.text,
+                    'image_url': imageUrl,
+                    'timestamp': FieldValue.serverTimestamp(),
+                  });
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Data submitted successfully!')),
+                  );
+
+                  Navigator.pop(
+                      context); // Optionally return to the previous screen
+                } catch (e) {
+                  String errorMessage = 'An error occurred';
+                  if (e is FirebaseException) {
+                    errorMessage = e.message ?? errorMessage;
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to submit: $errorMessage')),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
