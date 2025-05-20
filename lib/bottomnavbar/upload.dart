@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:share_the_meal_app/widgets/custom_text_input.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart'; // for kIsWeb
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:share_the_meal_app/bottomnavbar/backend.dart';
 
 class UploadFormScreen extends StatefulWidget {
   const UploadFormScreen({super.key});
@@ -13,7 +14,51 @@ class UploadFormScreen extends StatefulWidget {
 }
 
 class _UploadFormScreenState extends State<UploadFormScreen> {
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _type = TextEditingController();
+  final TextEditingController _servesize = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _date = TextEditingController();
+  final TextEditingController _location = TextEditingController();
+  final TextEditingController _notes = TextEditingController();
+
+  File? _imageFile; // For mobile
+  Uint8List? _webImage; // For web bytes
+
+  final ImagePicker _picker = ImagePicker();
   DateTime? _selectedDate;
+
+  bool _isLoading = false;
+  final FirebaseService _firebaseService = FirebaseService();
+
+  Future<void> _pickImage() async {
+    try {
+      final XFile? pickedImage =
+          await _picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        if (kIsWeb) {
+          // On web, load bytes
+          Uint8List imageBytes = await pickedImage.readAsBytes();
+          setState(() {
+            _webImage = imageBytes;
+            _imageFile = null;
+          });
+        } else {
+          // On mobile, use File
+          setState(() {
+            _imageFile = File(pickedImage.path);
+            _webImage = null;
+          });
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to pick image: $e')),
+      );
+    }
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -22,7 +67,7 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
       lastDate: DateTime(2100),
     );
 
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null) {
       setState(() {
         _selectedDate = picked;
         _date.text = _formatDate(picked);
@@ -34,174 +79,169 @@ class _UploadFormScreenState extends State<UploadFormScreen> {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
-  Future<void> _pickImage() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _imageFile = File(pickedImage.path);
-      });
-    }
+  Widget _buildTextField(
+    TextEditingController controller,
+    Icon icon,
+    String hintText, {
+    bool readOnly = false,
+    VoidCallback? onTap,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
+      child: TextField(
+        controller: controller,
+        readOnly: readOnly,
+        onTap: onTap,
+        decoration: InputDecoration(
+          prefixIcon: icon,
+          hintText: hintText,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      ),
+    );
   }
 
-  final TextEditingController _name = TextEditingController();
-  final TextEditingController _type = TextEditingController();
-  final TextEditingController _servesize = TextEditingController();
-  final TextEditingController _phone = TextEditingController();
-  final TextEditingController _date = TextEditingController();
-  final TextEditingController _location = TextEditingController();
-  final TextEditingController _notes = TextEditingController();
-  File? _imageFile;
-  final ImagePicker _picker = ImagePicker();
+  Future<void> _submitForm() async {
+    if (_imageFile == null && _webImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please upload an image')),
+      );
+      return;
+    }
+    if (_name.text.isEmpty ||
+        _phone.text.isEmpty ||
+        _type.text.isEmpty ||
+        _servesize.text.isEmpty ||
+        _date.text.isEmpty ||
+        _location.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all required fields')),
+      );
+      return;
+    }
+
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      // Upload image based on platform
+      String imageUrl = await _firebaseService.uploadImage(
+        imageFile: _imageFile,
+        imageBytes: _webImage,
+      );
+
+      // Save data
+      await _firebaseService.saveMealData(
+        name: _name.text.trim(),
+        phone: _phone.text.trim(),
+        type: _type.text.trim(),
+        serveSize: _servesize.text.trim(),
+        date: _date.text.trim(),
+        location: _location.text.trim(),
+        notes: _notes.text.trim(),
+        imageUrl: imageUrl,
+      );
+
+      setState(() {
+        _isLoading = false;
+        _name.clear();
+        _phone.clear();
+        _type.clear();
+        _servesize.clear();
+        _date.clear();
+        _location.clear();
+        _notes.clear();
+        _imageFile = null;
+        _webImage = null;
+        _selectedDate = null;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Form submitted successfully!')),
+      );
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Submission failed: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Center(child: Text("Upload Form")),
-        ),
-        body: SingleChildScrollView(
-            child: Column(
+      appBar: AppBar(
+        title: const Text("Upload Form"),
+        backgroundColor: Colors.green,
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             GestureDetector(
               onTap: _pickImage,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Container(
-                  width: double.infinity,
                   height: 200,
+                  width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[100],
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.green, width: 2),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 10, 61, 104),
-                      width: 2,
-                    ),
                     image: _imageFile != null
                         ? DecorationImage(
                             image: FileImage(_imageFile!),
                             fit: BoxFit.cover,
                           )
-                        : null,
+                        : _webImage != null
+                            ? DecorationImage(
+                                image: MemoryImage(_webImage!),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
                   ),
-                  child: _imageFile == null
+                  child: _imageFile == null && _webImage == null
                       ? const Center(child: Text("Tap to upload an image"))
                       : null,
                 ),
               ),
             ),
-            /*GestureDetector(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[100],
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color.fromARGB(255, 10, 61, 104), width: 2),
+            _buildTextField(_name, const Icon(Icons.person), 'Full Name'),
+            _buildTextField(_phone, const Icon(Icons.phone), 'Phone Number'),
+            _buildTextField(_type, const Icon(Icons.food_bank), 'Food Type'),
+            _buildTextField(_servesize, const Icon(Icons.format_list_numbered),
+                'Serving Size'),
+            _buildTextField(
+                _date, const Icon(Icons.date_range), 'Pick a date for pickup',
+                readOnly: true, onTap: () => _selectDate(context)),
+            _buildTextField(
+                _location, const Icon(Icons.location_on), 'Location'),
+            _buildTextField(
+                _notes, const Icon(Icons.note), 'Food Condition / Notes'),
+            const SizedBox(height: 20),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: _submitForm,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 14),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    child: const Text("Submit",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
-                ),
-              ),
-            ),*/
-            CustomTextInput(
-              controller: _name,
-              icon: const Icon(Icons.person),
-              hint: 'Enter your  full name',
-              isObscure: false,
-            ),
-            CustomTextInput(
-              controller: _phone,
-              icon: const Icon(Icons.phone),
-              hint: 'Enter your phone number',
-              isObscure: false,
-            ),
-            CustomTextInput(
-              controller: _type,
-              icon: const Icon(Icons.type_specimen),
-              hint: 'Enter the type of food(veg/nonveg)',
-              isObscure: false,
-            ),
-            CustomTextInput(
-              controller: _servesize,
-              icon: const Icon(Icons.production_quantity_limits),
-              hint: 'Enter the serving size',
-              isObscure: false,
-            ),
-            CustomTextInput(
-              controller: _date,
-              onTap: () => _selectDate(context),
-              icon: const Icon(Icons.calendar_month),
-              hint: 'pick a date for pickup',
-              isObscure: false,
-            ),
-            CustomTextInput(
-              controller: _location,
-              icon: const Icon(Icons.location_city),
-              hint: 'Enter your location',
-              isObscure: false,
-            ),
-            CustomTextInput(
-              controller: _notes,
-              icon: const Icon(Icons.description),
-              hint: 'Describe the condition of the food',
-              isObscure: false,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  String? imageUrl;
-                  if (_imageFile != null) {
-                    final storageRef = FirebaseStorage.instance.ref().child(
-                        'uploads/${DateTime.now().millisecondsSinceEpoch}.jpg');
-                    final UploadTask = await storageRef.putFile(_imageFile!);
-                    print("upload complete");
-                    imageUrl = await storageRef.getDownloadURL();
-                    print("image URL: $imageUrl");
-                  }
-                  await FirebaseFirestore.instance.collection('meals').add({
-                    'name': _name.text,
-                    'phone': _phone.text,
-                    'type': _type.text,
-                    'serving_size': _servesize.text,
-                    'pickup_date': _date.text,
-                    'location': _location.text,
-                    'notes': _notes.text,
-                    'image_url': imageUrl,
-                    'timestamp': FieldValue.serverTimestamp(),
-                  });
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Data submitted successfully!')),
-                  );
-
-                  Navigator.pop(
-                      context); // Optionally return to the previous screen
-                } catch (e) {
-                  String errorMessage = 'An error occurred';
-                  if (e is FirebaseException) {
-                    errorMessage = e.message ?? errorMessage;
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to submit: $errorMessage')),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
-              ),
-              child: const Text("Submit",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            ),
+            const SizedBox(height: 20),
           ],
-        )));
+        ),
+      ),
+    );
   }
 }
