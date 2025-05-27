@@ -69,3 +69,31 @@ class FirebaseService {
     }
   }
 }
+
+class RecycleFormService {
+  final CollectionReference recycleForms =
+      FirebaseFirestore.instance.collection('recycle_forms');
+
+  Future<void> submitForm({
+    required String name,
+    required String email,
+    required String phone,
+    required String date,
+    required String location,
+    required String notes,
+  }) async {
+    try {
+      await recycleForms.add({
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'pickup_date': date,
+        'location': location,
+        'notes': notes,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to submit form: $e');
+    }
+  }
+}

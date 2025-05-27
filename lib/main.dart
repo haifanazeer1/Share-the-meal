@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/cardprofile.dart';
 import 'package:share_the_meal_app/bottomnavbar/upload.dart';
+import 'package:share_the_meal_app/gmaps/googlemaps.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:share_the_meal_app/home.dart';
@@ -9,9 +10,12 @@ import 'package:share_the_meal_app/register.dart';
 import 'package:share_the_meal_app/sidebar/aboutus.dart';
 import 'package:share_the_meal_app/sidebar/donation.dart';
 import 'package:share_the_meal_app/signin.dart';
+import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: UploadFormScreen(),
+      home: SigninScreen(),
       routes: {
         '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
