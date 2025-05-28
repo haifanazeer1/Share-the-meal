@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/bottomnavbar/recycle.dart';
+import 'package:share_the_meal_app/gmaps/googlemaps.dart';
 
 class BottomNav extends StatefulWidget {
   final int currentIndex;
@@ -18,6 +19,7 @@ class _BottomNavState extends State<BottomNav> {
     '/home',
     '/upload',
     '/recycle',
+    '/maps',
   ];
 
   void _onItemTapped(int index) {
@@ -38,6 +40,7 @@ class _BottomNavState extends State<BottomNav> {
         BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'Upload'),
         BottomNavigationBarItem(
             icon: Icon(Icons.recycling_rounded), label: 'Recycle'),
+        BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Maps'),
       ],
     );
   }

@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/recycle': (context) => RecycleFormScreen(),
         '/upload': (context) => const UploadFormScreen(),
-        '/cardprofile': (context) => Cardprofile()
+        '/cardprofile': (context) => Cardprofile(),
+        '/maps': (context) => const MapScreen(),
       },
     );
   }
