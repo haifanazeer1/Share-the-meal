@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:share_the_meal_app/gmaps/googlemaps.dart';
+import 'package:share_the_meal_app/signin.dart';
+import 'package:share_the_meal_app/firebase_options.dart';
+
 import 'package:share_the_meal_app/cardprofile.dart';
 import 'package:share_the_meal_app/bottomnavbar/upload.dart';
-import 'package:share_the_meal_app/gmaps/googlemaps.dart';
-import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/bottomnavbar/recycle.dart';
 import 'package:share_the_meal_app/register.dart';
-import 'package:share_the_meal_app/sidebar/aboutus.dart';
-import 'package:share_the_meal_app/sidebar/donation.dart';
-import 'package:share_the_meal_app/signin.dart';
-import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
-import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,12 +31,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       home: SigninScreen(),
+      
       routes: {
         '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
         '/register': (context) => const RegisterScreen(),
         '/recycle': (context) => RecycleFormScreen(),
         '/upload': (context) => const UploadFormScreen(),
+        '/maps': (context) => const MapScreen(),
         '/cardprofile': (context) => Cardprofile()
       },
     );

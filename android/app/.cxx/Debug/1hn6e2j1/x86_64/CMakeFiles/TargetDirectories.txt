@@ -1,0 +1,2 @@
+C:/Users/moham/Desktop/Share-the-meal/android/app/.cxx/Debug/1hn6e2j1/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/moham/Desktop/Share-the-meal/android/app/.cxx/Debug/1hn6e2j1/x86_64/CMakeFiles/rebuild_cache.dir
