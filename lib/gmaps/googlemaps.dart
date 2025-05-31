@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:share_the_meal_app/gmaps/directions_model.dart';
 import 'package:share_the_meal_app/gmaps/directions_repository.dart';
 
@@ -12,14 +15,21 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(37.773972, -122.431297),
-    zoom: 11.5,
+    target: LatLng(20.5937, 78.9629), // Centered on India
+    zoom: 5.5,
   );
 
   GoogleMapController? _googleMapController;
   Marker? _origin;
   Marker? _destination;
   Directions? _info;
+  final Set<Marker> _organizationMarkers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadOrganizationMarkers();
+  }
 
   @override
   void dispose() {
@@ -27,12 +37,34 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 
+  Future<void> _loadOrganizationMarkers() async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('food_organizations').get();
+
+    final markers = snapshot.docs.map((doc) {
+      final data = doc.data();
+      final lat = data['latitude'];
+      final lng = data['longitude'];
+      final name = data['name'];
+
+      return Marker(
+        markerId: MarkerId(doc.id),
+        position: LatLng(lat, lng),
+        infoWindow: InfoWindow(title: name),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+      );
+    }).toSet();
+
+    setState(() {
+      _organizationMarkers.addAll(markers);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        title: const Text('Google Maps'),
+        title: const Text('Nearby Food Organizations'),
         actions: [
           if (_origin != null)
             TextButton(
@@ -44,9 +76,6 @@ class _MapScreenState extends State<MapScreen> {
                     tilt: 50.0,
                   ),
                 ),
-              ),
-              style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
               ),
               child: const Text('ORIGIN'),
             ),
@@ -61,9 +90,6 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
               ),
-              style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
-              ),
               child: const Text('DESTINATION'),
             ),
         ],
@@ -73,10 +99,11 @@ class _MapScreenState extends State<MapScreen> {
         children: [
           GoogleMap(
             initialCameraPosition: _initialCameraPosition,
-            myLocationButtonEnabled: false,
+            myLocationButtonEnabled: true,
             zoomControlsEnabled: false,
             onMapCreated: (controller) => _googleMapController = controller,
             markers: {
+              ..._organizationMarkers,
               if (_origin != null) _origin!,
               if (_destination != null) _destination!,
             },
@@ -97,38 +124,25 @@ class _MapScreenState extends State<MapScreen> {
             Positioned(
               top: 20.0,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6.0,
-                  horizontal: 12.0,
-                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: Colors.yellowAccent,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, 2),
-                      blurRadius: 6.0,
-                    )
-                  ],
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '${_info!.totalDistance}, ${_info!.totalDuration}',
                   style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+                      fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.black,
         onPressed: () => _googleMapController?.animateCamera(
           _info != null
-              ? CameraUpdate.newLatLngBounds(_info!.bounds, 100.0)
+              ? CameraUpdate.newLatLngBounds(_info!.bounds, 100)
               : CameraUpdate.newCameraPosition(_initialCameraPosition),
         ),
         child: const Icon(Icons.center_focus_strong),

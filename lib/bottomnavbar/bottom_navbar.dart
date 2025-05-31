@@ -33,8 +33,13 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed, // Ensures all labels are shown
       onTap: _onItemTapped,
       currentIndex: selectedIndex,
+      selectedItemColor: Colors.green,
+      unselectedItemColor: Colors.black,
+      selectedLabelStyle: TextStyle(color: Colors.green),
+      unselectedLabelStyle: TextStyle(color: Colors.black),
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'Upload'),
