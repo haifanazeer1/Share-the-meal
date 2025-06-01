@@ -25,10 +25,6 @@ class DonationHistoryPage extends StatelessWidget {
       ngoName: 'Wahheed-ul-Uloom',
       date: DateTime(2025, 2, 2),
     ),
-    DonationEntry(
-      ngoName: 'St. Joseph\'s NGO',
-      date: DateTime(2025, 3, 3),
-    ),
   ];
 
   final DateFormat formatter = DateFormat('MMMM d, yyyy'); // e.g., February 2, 2025
