@@ -3,6 +3,8 @@ import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/sidebar/favorites.dart';
 import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
+import 'package:share_the_meal_app/sidebar/joinus.dart';
+
 import 'history.dart';
 import 'donation.dart';
 import 'aboutus.dart';

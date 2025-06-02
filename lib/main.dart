@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:share_the_meal_app/gmaps/googlemaps.dart';
+import 'package:share_the_meal_app/sidebar/profile.dart';
+import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
 import 'package:share_the_meal_app/firebase_options.dart';
 
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: SigninScreen(),
+      home: Home(),
       routes: {
         '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
@@ -38,7 +40,8 @@ class MyApp extends StatelessWidget {
         '/recycle': (context) => RecycleFormScreen(),
         '/upload': (context) => const UploadFormScreen(),
         '/maps': (context) => const MapScreen(),
-        '/cardprofile': (context) => Cardprofile()
+        '/cardprofile': (context) => Cardprofile(),
+        '/profile': (context) => ProfilePage(),
       },
     );
   }
