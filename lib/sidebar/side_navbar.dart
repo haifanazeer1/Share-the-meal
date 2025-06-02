@@ -3,12 +3,16 @@ import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/sidebar/favorites.dart';
 import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
+import 'package:share_the_meal_app/sidebar/joinus.dart';
+
+
 import 'history.dart';
 import 'donation.dart';
 import 'aboutus.dart';
 import 'dash.dart';
 import 'notification.dart';
 import 'profile.dart';
+import 'settings.dart';
 
 class SideNav extends StatelessWidget {
   const SideNav({super.key});
@@ -45,6 +49,8 @@ class SideNav extends StatelessWidget {
             //  Icons.favorite, 'Favourites', context, FavoritesPage()),
             _buildListTile(Icons.attach_money, 'Donate', context, DonatePage()),
             _buildListTile(Icons.info, 'About Us', context, AboutUsPage()),
+            _buildListTile(Icons.group_add, 'Join Us', context, JoinUsPage()),
+
 
             Divider(),
             _buildListTile(Icons.logout, 'Logout', context, SigninScreen()),

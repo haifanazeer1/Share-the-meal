@@ -33,13 +33,41 @@ class _JoinUsPageState extends State<JoinUsPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Thanks for joining, $name!')),
       );
-      // Here you can send data to a server, Firebase, etc.
+      // Send data to backend here
     }
+  }
+
+  Widget _buildInputBox({required String label, required Widget child}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.blueAccent),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          SizedBox(height: 8),
+          child,
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true, // Adjusts for keyboard visibility
+      extendBodyBehindAppBar: true, // Allows body to extend under app bar
+      extendBody: true, // Allows body to extend beyond the safe area
+      bottomNavigationBar: null, // No bottom navigation bar in this page
+      drawer: null, // No drawer in this page (you can add one if needed)
       appBar: AppBar(title: Text('Join Our NGO')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -47,10 +75,10 @@ class _JoinUsPageState extends State<JoinUsPage> {
           key: _formKey,
           child: Column(
             children: [
-              // Profile Picture Placeholder
+              // Profile Picture
               GestureDetector(
                 onTap: () {
-                  // You can integrate image_picker here
+                  // You can add image picking functionality here
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Profile picture upload coming soon!')),
                   );
@@ -68,48 +96,73 @@ class _JoinUsPageState extends State<JoinUsPage> {
               ),
               SizedBox(height: 20),
 
-              // Form Fields
-              TextFormField(
-                decoration: InputDecoration(labelText: 'NGO Name'),
-                validator: (value) => value!.isEmpty ? 'Enter NGO name' : null,
-                onSaved: (value) => ngoName = value!,
+              // Form fields wrapped in boxes
+              _buildInputBox(
+                label: 'NGO Name',
+                child: TextFormField(
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter NGO name' : null,
+                  onSaved: (value) => ngoName = value!,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Full Name'),
-                validator: (value) => value!.isEmpty ? 'Enter your name' : null,
-                onSaved: (value) => name = value!,
+              _buildInputBox(
+                label: 'Full Name',
+                child: TextFormField(
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter your name' : null,
+                  onSaved: (value) => name = value!,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email ID'),
-                validator: (value) =>
-                    value!.contains('@') ? null : 'Enter a valid email',
-                onSaved: (value) => email = value!,
+              _buildInputBox(
+                label: 'Email ID',
+                child: TextFormField(
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) => value!.contains('@')
+                      ? null
+                      : 'Enter a valid email',
+                  onSaved: (value) => email = value!,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Mobile Number'),
-                keyboardType: TextInputType.phone,
-                validator: (value) =>
-                    value!.length < 10 ? 'Enter valid phone number' : null,
-                onSaved: (value) => phone = value!,
+              _buildInputBox(
+                label: 'Mobile Number',
+                child: TextFormField(
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) => value!.length < 10
+                      ? 'Enter valid phone number'
+                      : null,
+                  onSaved: (value) => phone = value!,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Reference Number'),
-                onSaved: (value) => reference = value!,
+              _buildInputBox(
+                label: 'Reference Number',
+                child: TextFormField(
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  onSaved: (value) => reference = value!,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Why do you want to join?'),
-                maxLines: 3,
-                validator: (value) =>
-                    value!.isEmpty ? 'Please share your motivation' : null,
-                onSaved: (value) => motivation = value!,
+              _buildInputBox(
+                label: 'Why do you want to join?',
+                child: TextFormField(
+                  maxLines: 3,
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  validator: (value) => value!.isEmpty
+                      ? 'Please share your motivation'
+                      : null,
+                  onSaved: (value) => motivation = value!,
+                ),
               ),
+
               SizedBox(height: 30),
 
-              // Centered Join Button
+              // JOIN US button centered
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
                   ),

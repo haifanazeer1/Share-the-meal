@@ -6,6 +6,7 @@ import 'package:share_the_meal_app/register.dart';
 import 'package:share_the_meal_app/sidebar/aboutus.dart';
 import 'package:share_the_meal_app/sidebar/donation.dart';
 import 'package:share_the_meal_app/sidebar/joinus.dart';
+import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
 
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: JoinUsApp(),
+      home: SettingsApp(),
       routes: {
         '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
