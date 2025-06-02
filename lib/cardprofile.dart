@@ -76,7 +76,7 @@ class Cardprofile extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton.icon(
+                        /*ElevatedButton.icon(
                           icon: Icon(Icons.chat),
                           label: Text(
                             'Chat',
@@ -87,7 +87,7 @@ class Cardprofile extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green),
                           onPressed: () {},
-                        ),
+                        ),*/
                         ElevatedButton.icon(
                           icon: Icon(Icons.favorite),
                           label: Text(

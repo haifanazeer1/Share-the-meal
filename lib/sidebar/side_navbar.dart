@@ -9,6 +9,8 @@ import 'aboutus.dart';
 import 'dash.dart';
 import 'notification.dart';
 import 'profile.dart';
+import 'joinus.dart';
+import 'settings.dart';
 
 class SideNav extends StatelessWidget {
   const SideNav({super.key});
@@ -45,7 +47,7 @@ class SideNav extends StatelessWidget {
             //  Icons.favorite, 'Favourites', context, FavoritesPage()),
             _buildListTile(Icons.attach_money, 'Donate', context, DonatePage()),
             _buildListTile(Icons.info, 'About Us', context, AboutUsPage()),
-
+            _buildListTile(Icons.join_full, 'Join Us', context, JoinUsPage()),
             Divider(),
             _buildListTile(Icons.logout, 'Logout', context, SigninScreen()),
             _buildListTile(Icons.settings, 'Settings', context, SettingsPage()),
