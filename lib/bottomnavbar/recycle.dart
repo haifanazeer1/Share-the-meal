@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/widgets/custom_text_input.dart';
-import 'package:share_the_meal_app/bottomnavbar/backend.dart';
+import 'package:share_the_meal_app/backend.dart';
 
 class RecycleFormScreen extends StatefulWidget {
   const RecycleFormScreen({super.key});

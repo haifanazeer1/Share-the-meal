@@ -97,3 +97,35 @@ class RecycleFormService {
     }
   }
 }
+
+class JoinUsService {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // ... existing uploadImage and saveMealData methods
+
+  Future<void> saveJoinUsData({
+    required String ngoName,
+    required String name,
+    required String email,
+    required String phone,
+    required String reference,
+    required String motivation,
+    String? profileImageUrl, // Optional, if profile image upload is later added
+  }) async {
+    try {
+      await _firestore.collection('ngo_joins').add({
+        'ngoName': ngoName,
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'reference': reference,
+        'motivation': motivation,
+        'profileImageUrl': profileImageUrl ?? '',
+        'joinedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to save join data: $e');
+    }
+  }
+}

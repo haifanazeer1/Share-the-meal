@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_the_meal_app/backend.dart';
 
 void main() => runApp(JoinUsApp());
 
@@ -20,6 +21,7 @@ class JoinUsPage extends StatefulWidget {
 
 class _JoinUsPageState extends State<JoinUsPage> {
   final _formKey = GlobalKey<FormState>();
+  final JoinUsService _firebaseService = JoinUsService();
   String ngoName = '';
   String name = '';
   String email = '';
@@ -27,13 +29,31 @@ class _JoinUsPageState extends State<JoinUsPage> {
   String reference = '';
   String motivation = '';
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Thanks for joining, $name!')),
-      );
-      // Send data to backend here
+
+      try {
+        await _firebaseService.saveJoinUsData(
+          ngoName: ngoName,
+          name: name,
+          email: email,
+          phone: phone,
+          reference: reference,
+          motivation: motivation,
+          // profileImageUrl: (optional if added later)
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Thanks for joining, $name!')),
+        );
+
+        // Optionally reset form or navigate
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
     }
   }
 
@@ -67,7 +87,10 @@ class _JoinUsPageState extends State<JoinUsPage> {
       extendBody: true, // Allows body to extend beyond the safe area
       bottomNavigationBar: null, // No bottom navigation bar in this page
       drawer: null, // No drawer in this page (you can add one if needed)
-      appBar: AppBar(title: Text('Join Our NGO')),
+      appBar: AppBar(
+        title: Text('Join Our NGO'),
+        backgroundColor: Colors.green,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(

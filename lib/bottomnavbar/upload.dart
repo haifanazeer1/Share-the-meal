@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart'; // for kIsWeb
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:share_the_meal_app/bottomnavbar/backend.dart';
+import 'package:share_the_meal_app/backend.dart';
 
 class UploadFormScreen extends StatefulWidget {
   const UploadFormScreen({super.key});
