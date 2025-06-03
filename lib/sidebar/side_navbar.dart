@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/sidebar/favorites.dart';
+import 'package:share_the_meal_app/sidebar/navtojoin.dart';
 import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
 import 'package:share_the_meal_app/sidebar/joinus.dart';
@@ -49,7 +50,7 @@ class SideNav extends StatelessWidget {
             //  Icons.favorite, 'Favourites', context, FavoritesPage()),
             _buildListTile(Icons.attach_money, 'Donate', context, DonatePage()),
             _buildListTile(Icons.info, 'About Us', context, AboutUsPage()),
-            _buildListTile(Icons.join_full, 'Join Us', context, JoinUsPage()),
+            _buildListTile(Icons.join_full, 'Join Us', context, Navtojoin()),
             Divider(),
             _buildListTile(Icons.logout, 'Logout', context, SigninScreen()),
             _buildListTile(Icons.settings, 'Settings', context, SettingsPage()),

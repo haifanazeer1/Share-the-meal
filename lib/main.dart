@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:share_the_meal_app/gmaps/googlemaps.dart';
+import 'package:share_the_meal_app/sidebar/joinus.dart';
 import 'package:share_the_meal_app/sidebar/profile.dart';
+import 'package:share_the_meal_app/sidebar/registered_ngos.dart';
 import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
 import 'package:share_the_meal_app/firebase_options.dart';
@@ -42,6 +44,8 @@ class MyApp extends StatelessWidget {
         '/maps': (context) => const MapScreen(),
         '/cardprofile': (context) => Cardprofile(),
         '/profile': (context) => ProfilePage(),
+        '/joinus': (context) => JoinUsPage(),
+        '/registeredngos': (context) => RegisteredNgos(),
       },
     );
   }
