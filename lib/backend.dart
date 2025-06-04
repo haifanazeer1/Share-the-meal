@@ -128,4 +128,20 @@ class JoinUsService {
       throw Exception('Failed to save join data: $e');
     }
   }
+
+  Future<List<Map<String, String>>> fetchRegisteredUsers() async {
+    try {
+      final snapshot = await _firestore.collection('ngo_joins').get();
+
+      return snapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return {
+          'ngoName': data['ngoName']?.toString() ?? '',
+          'phone': data['phone']?.toString() ?? '',
+        };
+      }).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch registered users: $e');
+    }
+  }
 }

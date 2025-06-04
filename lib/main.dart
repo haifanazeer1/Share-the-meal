@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/cardprofile': (context) => Cardprofile(),
         '/profile': (context) => ProfilePage(),
         '/joinus': (context) => JoinUsPage(),
-        '/registeredngos': (context) => RegisteredNgos(),
+        '/registeredngos': (context) => RegisteredNGOs(),
       },
     );
   }
