@@ -47,6 +47,7 @@ dependencies:
   google_maps_flutter: ^2.5.0
   google_maps_flutter_web: ^0.5.12
   universal_html: ^2.2.3
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ flutter:
   assets:
     - assets/google.png
     - assets/image1.jpeg
+    - assets/shareameallogo.jpg
     # The asset file 'assets/visa.jpg' was removed or does not exist.
 
 

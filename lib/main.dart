@@ -7,13 +7,14 @@ import 'package:share_the_meal_app/sidebar/registered_ngos.dart';
 import 'package:share_the_meal_app/sidebar/settings.dart';
 import 'package:share_the_meal_app/signin.dart';
 import 'package:share_the_meal_app/firebase_options.dart';
-
+import 'package:share_the_meal_app/splashcreen.dart';
 import 'package:share_the_meal_app/cardprofile.dart';
 import 'package:share_the_meal_app/bottomnavbar/upload.dart';
 
 import 'package:share_the_meal_app/home.dart';
 import 'package:share_the_meal_app/bottomnavbar/recycle.dart';
 import 'package:share_the_meal_app/register.dart';
+import 'package:share_the_meal_app/splashcreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +33,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Share The Meal',
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: SplashScreen(),
       routes: {
         '/home': (context) => const Home(),
         '/sign-in': (context) => SigninScreen(),
